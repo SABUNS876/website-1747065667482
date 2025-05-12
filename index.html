@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<title>Ama Elaina Experience</title>
+<style>
+  /* Reset and basic styling */
+  body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #fceabb, #f8b500);
+    color: #333;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  #app {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+    max-width: 350px;
+    width: 90vw;
+    max-height: 600px;
+    padding: 20px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  h1 {
+    font-family: 'Brush Script MT', cursive;
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 10px;
+    color: #d94f4f;
+    user-select: none;
+    text-shadow: 1px 1px 2px #820000;
+  }
+  #statusMessage {
+    font-size: 1.1rem;
+    margin: 10px 0 25px 0;
+    color: #555;
+    text-align: center;
+    min-height: 50px;
+  }
+  .buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 12px;
+  }
+  button {
+    background: #e94f37;
+    border: none;
+    color: white;
+    padding: 12px 16px;
+    font-size: 1rem;
+    border-radius: 10px;
+    cursor: pointer;
+    flex: 1 1 45%;
+    transition: background 0.3s ease;
+    user-select: none;
+  }
+  button:hover, button:focus {
+    background: #bf3a2a;
+    outline: none;
+  }
+  button:active {
+    background: #932721;
+  }
+  #chatBox {
+    flex: 1;
+    background: #f9f3f3;
+    border: 2px solid #e94f37;
+    border-radius: 15px;
+    margin-top: 20px;
+    padding: 10px;
+    overflow-y: auto;
+    font-size: 0.9rem;
+  }
+  .chat-message {
+    margin-bottom: 10px;
+    padding: 8px 12px;
+    border-radius: 12px;
+    max-width: 80%;
+  }
+  .user-msg {
+    background-color: #e94f37;
+    color: white;
+    align-self: flex-end;
+  }
+  .elaina-msg {
+    background-color: #fcd1ce;
+    color: #830000;
+    align-self: flex-start;
+  }
+  @media screen and (max-width: 400px) {
+    #app {
+      max-width: 320px;
+    }
+    button {
+      font-size: 0.9rem;
+      padding: 10px 12px;
+    }
+    h1 {
+      font-size: 2rem;
+    }
+  }
+</style>
+</head>
+<body>
+<div id="app" role="main" aria-label="Ama Elaina interactive experience">
+  <h1>Ama Elaina</h1>
+  <div id="statusMessage" aria-live="polite"></div>
+  <div class="buttons">
+    <button id="kissBtn" aria-label="Kiss Ama Elaina">Ciuman Ama Elaina</button>
+    <button id="chatBtn" aria-label="Chat with Ama Elaina">Chat Ama Elaina</button>
+    <button id="marryBtn" aria-label="Marry Ama Elaina">Bisa Nikahin Elaina</button>
+    <button id="intimateBtn" aria-label="Intimate with Ama Elaina">Ngentod Ama Elaina</button>
+  </div>
+  <div id="chatBox" aria-live="polite" aria-relevant="additions"></div>
+</div>
+
+<script>
+  (() => {
+    // Elements
+    const statusMessage = document.getElementById('statusMessage');
+    const kissBtn = document.getElementById('kissBtn');
+    const chatBtn = document.getElementById('chatBtn');
+    const marryBtn = document.getElementById('marryBtn');
+    const intimateBtn = document.getElementById('intimateBtn');
+    const chatBox = document.getElementById('chatBox');
+
+    // Helper: Append chat message
+    function appendChatMessage(message, sender) {
+      const msgDiv = document.createElement('div');
+      msgDiv.classList.add('chat-message');
+      msgDiv.classList.add(sender === 'user' ? 'user-msg' : 'elaina-msg');
+      msgDiv.textContent = message;
+      chatBox.appendChild(msgDiv);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    // Responses
+    const kissResponses = [
+      "Elaina tersipu malu dan membalas ciumanmu.",
+      "Elaina tersenyum manis setelah berciuman denganmu.",
+      "Ciuman itu membuat Elaina semakin dekat denganmu."
+    ];
+
+    const marriageResponses = [
+      "Elaina tersenyum bahagia dan menerima lamaranmu!",
+      "Kalian berdua kini resmi menjadi pasangan.",
+      "Elaina bilang: 'Aku mau nikah sama kamu!'"
+    ];
+
+    const intimateResponses = [
+      "Momen intim yang hangat bersama Elaina terasa penuh cinta.",
+      "Elaina memelukmu erat dengan penuh kasih sayang.",
+      "Kalian berdua menikmati waktu bersama dengan penuh keintiman."
+    ];
+
+    const chatReplies = [
+      "Elaina: Hai! Apa kabar?",
+      "Elaina: Aku suka cerita-cerita romantis, mau dengar?",
+      "Elaina: Kamu hari ini kelihatan sangat baik.",
+      "Elaina: Apa yang kamu pikirkan sekarang?",
+      "Elaina: Aku senang bisa mengobrol denganmu."
+    ];
+
+    // Button Events
+    kissBtn.addEventListener('click', () => {
+      statusMessage.textContent = kissResponses[Math.floor(Math.random() * kissResponses.length)];
+      appendChatMessage('Kamu mencium Elaina ❤️', 'user');
+      appendChatMessage(statusMessage.textContent, 'elaina');
+    });
+
+    marryBtn.addEventListener('click', () => {
+      statusMessage.textContent = marriageResponses[Math.floor(Math.random() * marriageResponses.length)];
+      appendChatMessage('Kamu melamar Elaina 💍', 'user');
+      appendChatMessage(statusMessage.textContent, 'elaina');
+    });
+
+    intimateBtn.addEventListener('click', () => {
+      statusMessage.textContent = intimateResponses[Math.floor(Math.random() * intimateResponses.length)];
+      appendChatMessage('Kamu bersama Elaina secara intim 💕', 'user');
+      appendChatMessage(statusMessage.textContent, 'elaina');
+    });
+
+    chatBtn.addEventListener('click', () => {
+      // Simulate a brief chat container for interaction
+      const userText = prompt('Ketik chat kamu untuk Elaina:');
+      if (userText && userText.trim() !== '') {
+        appendChatMessage(userText.trim(), 'user');
+        // Simple reply simulation
+        const reply = chatReplies[Math.floor(Math.random() * chatReplies.length)];
+        setTimeout(() => appendChatMessage(reply, 'elaina'), 800);
+        statusMessage.textContent = "Berhasil mengirim chat ke Elaina.";
+      } else {
+        statusMessage.textContent = "Chat dibatalkan atau kosong.";
+      }
+    });
+
+    // Initial welcome message
+    statusMessage.textContent = "Selamat datang! Pilih aksi untuk bersama Ama Elaina.";
+  })();
+</script>
+</body>
+</html>
+
+```
